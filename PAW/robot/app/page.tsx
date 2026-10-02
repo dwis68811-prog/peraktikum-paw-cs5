@@ -1,49 +1,155 @@
-"use client";
+import Link from "next/link";
 
-import { useState } from "react";
+const kolom =
+  "rounded border border-gray-300 px-3 py-2 " +
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700";
 
-const constellations = [
-  { name: "Orion", short: "OR", season: "Musim terbaik: Desember - Maret", direction: "Timur", time: "21:40", visibility: 96, color: "gold" },
-  { name: "Scorpius", short: "SC", season: "Musim terbaik: Juni - Agustus", direction: "Tenggara", time: "22:15", visibility: 78, color: "coral" },
-  { name: "Crux", short: "CR", season: "Musim terbaik: April - Juni", direction: "Selatan", time: "20:50", visibility: 65, color: "blue" },
+const konstelasi = [
+  { nama: "Orion", keterangan: "Memiliki tiga bintang tengah yang sangat mudah dikenali." },
+  { nama: "Scorpius", keterangan: "Terlihat jelas di langit malam dengan ekor yang melengkung." },
+  { nama: "Cassiopeia", keterangan: "Bentuknya seperti huruf W, cocok untuk pengamatan musim dingin." },
 ];
 
-export default function Home() {
-  const [location, setLocation] = useState("Jakarta, Indonesia");
-  const [date, setDate] = useState("2026-09-25");
-  const [time, setTime] = useState("21:00");
-  const [selected, setSelected] = useState(0);
-  const [checked, setChecked] = useState(false);
-  const constellation = constellations[selected];
-
+export default function Beranda() {
   return (
-    <div className="app-shell sky-shell">
-      <aside className="sidebar sky-sidebar">
-        <div className="brand-mark"><span>✦</span><strong>Langitku</strong></div>
-        <div className="workspace-label">PENGAMATAN</div>
-        <nav className="nav-list" aria-label="Navigasi pengamatan">
-          <a className="nav-item active" href="#cek"><span className="nav-icon">✧</span> Cek langit</a>
-          <a className="nav-item" href="#konstelasi"><span className="nav-icon">✦</span> Konstelasi</a>
-          <a className="nav-item" href="#catatan"><span className="nav-icon">◷</span> Catatan saya</a>
+    <>
+      <a href="#konten" className="sr-only focus:not-sr-only focus:p-2 focus:bg-blue-700 focus:text-white">
+        Lewati ke konten utama
+      </a>
+
+      <header className="border-b bg-white">
+        <nav
+          aria-label="Navigasi utama"
+          className="mx-auto flex max-w-6xl flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <Link href="/" className="text-lg font-bold">
+            Langitku
+          </Link>
+          <ul className="flex flex-col gap-2 sm:flex-row sm:gap-6">
+            <li>
+              <a href="#pengamatan" className="hover:text-blue-700">
+                Cek Langit
+              </a>
+            </li>
+            <li>
+              <a href="#konstelasi" className="hover:text-blue-700">
+                Konstelasi
+              </a>
+            </li>
+            <li>
+              <a href="#catatan" className="hover:text-blue-700">
+                Catatan saya
+              </a>
+            </li>
+          </ul>
         </nav>
-        <div className="sidebar-bottom"><div className="tip-card"><span className="tip-icon">☾</span><div><strong>Langit malam ini</strong><p>Udara cerah. Waktu yang baik untuk mengamati bintang.</p></div></div><div className="profile"><div className="avatar">AM</div><div><strong>Alex Morgan</strong><span>Akun pengamat</span></div><span className="more">•••</span></div></div>
-      </aside>
+      </header>
 
-      <main className="main-content sky-main" id="cek">
-        <header className="topbar"><div className="breadcrumb">Pengamatan <span>/</span> <strong>Cek langit</strong></div><button className="help-button" aria-label="Bantuan">?</button></header>
-        <section className="intro sky-intro"><div><p className="eyebrow">PANDUAN LANGIT MALAM</p><h1>Temukan cerita<br /><em>di atas sana.</em></h1><p className="intro-copy">Pilih waktu dan lokasi pengamatanmu. Kami akan membantu menemukan konstelasi yang sedang terlihat.</p></div><div className="moon-mark">☾<span>✦</span></div></section>
-
-        <section className="sky-check-panel panel">
-          <div className="panel-heading"><div><span className="step-label">01 / PENGATURAN</span><h2>Kapan kamu mengamati?</h2></div><span className="format-badge">Waktu lokal</span></div>
-          <div className="field-grid"><label>Lokasi<input value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Kota atau lokasi" /></label><label>Tanggal<input type="date" value={date} onChange={(event) => setDate(event.target.value)} /></label><label>Waktu<input type="time" value={time} onChange={(event) => setTime(event.target.value)} /></label></div>
-          <button className="analyze-button" onClick={() => setChecked(true)}>Cek langit sekarang <span>→</span></button>
+      <main id="konten" className="mx-auto max-w-6xl space-y-12 p-4 sm:p-6">
+        <section aria-labelledby="judul-utama" className="space-y-3 py-8">
+          <h1 id="judul-utama" className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+            Temukan cerita <span className="italic font-normal">di atas sana.</span>
+          </h1>
+          <p className="max-w-2xl text-base text-gray-700 sm:text-lg">
+            Pilih waktu dan lokasi pengamatanmu. Kami akan membantu menemukan konstelasi yang sedang terlihat.
+          </p>
         </section>
 
-        <section className="constellation-section" id="konstelasi"><div className="section-heading"><div><span className="step-label">02 / KONSTELASI</span><h2>Apa yang terlihat?</h2></div><span className="checked-label">{checked ? "✓ Diperbarui sekarang" : "Rekomendasi malam ini"}</span></div><div className="constellation-grid">{constellations.map((item, index) => <button key={item.name} className={`constellation-card ${index === selected ? "selected" : ""}`} onClick={() => { setSelected(index); setChecked(false); }}><div className={`star-symbol ${item.color}`}>{item.short}</div><div className="constellation-info"><strong>{item.name}</strong><span>{item.season}</span><small><i /> {item.visibility}% terlihat</small></div><span className="arrow">↗</span></button>)}</div></section>
+        <section
+          id="pengamatan"
+          aria-labelledby="judul-pengaturan"
+          className="space-y-6 rounded-xl border bg-white p-6 shadow-sm"
+        >
+          <h2 id="judul-pengaturan" className="text-lg font-bold text-gray-800">
+            01 / PENGATURAN
+          </h2>
+          <h3 className="text-xl font-semibold">Kapan kamu mengamati?</h3>
 
-        <section className="visibility-panel panel" id="catatan"><div className="visibility-top"><div><span className="step-label">03 / HASIL PENGECEKAN</span><h2>{constellation.name} di {location || "lokasimu"}</h2><p className="result-copy">Pada {date || "tanggal pilihanmu"} pukul {time || "waktu pilihanmu"}, konstelasi ini <strong>kemungkinan besar terlihat.</strong></p></div><div className="visibility-score"><strong>{constellation.visibility}%</strong><span>VISIBILITAS</span></div></div><div className="visibility-details"><div><span>Arah</span><strong>{constellation.direction}</strong></div><div><span>Waktu terbaik</span><strong>{constellation.time} - 23:30</strong></div><div><span>Kondisi langit</span><strong className="clear"><i /> Cerah</strong></div></div><div className="star-map"><div className="map-label">PETA LANGIT <span>menghadap {constellation.direction.toLowerCase()}</span></div><div className="map-stars"><b className="s1">✦</b><b className="s2">·</b><b className="s3">✦</b><b className="s4">·</b><b className="s5">✦</b><b className="s6">·</b><b className="s7">✦</b><span className="constellation-line line-one" /><span className="constellation-line line-two" /><span className="map-orion">{constellation.name}</span></div></div></section>
-        <footer>Langitku memberi panduan berdasarkan data waktu dan lokasi. Awan dan polusi cahaya dapat memengaruhi pengamatan.</footer>
+          <form
+            className="grid gap-6 sm:grid-cols-3"
+            onSubmit={(event) => event.preventDefault()}
+          >
+            <div className="flex flex-col gap-1">
+              <label htmlFor="lokasi" className="text-sm font-medium text-gray-700">
+                Lokasi
+              </label>
+              <input
+                id="lokasi"
+                name="lokasi"
+                type="text"
+                defaultValue="Jakarta, Indonesia"
+                className={kolom}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="tanggal" className="text-sm font-medium text-gray-700">
+                Tanggal
+              </label>
+              <input
+                id="tanggal"
+                name="tanggal"
+                type="date"
+                defaultValue="2026-09-25"
+                className={kolom}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label htmlFor="waktu" className="text-sm font-medium text-gray-700">
+                Waktu
+              </label>
+              <input
+                id="waktu"
+                name="waktu"
+                type="time"
+                defaultValue="21:00"
+                className={kolom}
+              />
+            </div>
+
+            <div className="sm:col-span-3">
+              <button
+                type="submit"
+                className={
+                  kolom +
+                  " w-full bg-[#2E6F5E] py-3 font-semibold text-white transition-colors hover:bg-[#235849]"
+                }
+              >
+                Cek langit sekarang
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section id="konstelasi" aria-labelledby="judul-konstelasi" className="space-y-4">
+          <h2 id="judul-konstelasi" className="text-lg font-bold text-gray-800">
+            02 / KONSTELASI
+          </h2>
+          <div className="grid gap-4 md:grid-cols-3">
+            {konstelasi.map((item) => (
+              <article key={item.nama} className="rounded-xl border bg-white p-5 shadow-sm">
+                <h3 className="text-lg font-semibold text-gray-900">{item.nama}</h3>
+                <p className="mt-2 text-sm text-gray-600">{item.keterangan}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="catatan" aria-labelledby="judul-catatan" className="rounded-xl border bg-slate-50 p-6">
+          <h2 id="judul-catatan" className="text-lg font-bold text-gray-800">
+            03 / CATATAN SAYA
+          </h2>
+          <p className="mt-3 max-w-2xl text-gray-700">
+            Cuaca cerah, kondisi langit cukup stabil, dan paling cocok untuk pengamatan saat malam mulai
+            tenang. Jangan lupa membawa jaket hangat dan catatan kecil untuk mencatat posisi benda langit.
+          </p>
+        </section>
       </main>
-    </div>
+
+      <footer className="mt-12 border-t py-6 text-center text-sm text-gray-600">
+        <p>© 2026 Langitku</p>
+      </footer>
+    </>
   );
 }

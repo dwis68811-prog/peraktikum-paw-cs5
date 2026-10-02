@@ -1,29 +1,35 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import Link from "next/link";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Proofly | Math answer analyzer",
-  description: "Understand every step of your mathematics answer.",
-};
-
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function Beranda() {
   return (
-    <html
-      lang="id"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
-    </html>
+    <>
+      <a href="#konten" className="sr-only focus:not-sr-only focus:p-2">
+        Lewati ke konten utama
+      </a>
+      <header className="border-b">
+        <nav aria-label="Navigasi utama">
+          <Link href="/">NamaProduk</Link>
+          <ul>
+            <li><a href="#fitur">Fitur</a></li>
+            <li><a href="#kontak">Kontak</a></li>
+          </ul>
+        </nav>
+      </header>
+      <main id="konten">
+        <section aria-labelledby="judul-utama">
+          <h1 id="judul-utama">Kalimat nilai utama produk</h1>
+          <p>Penjelasan singkat permasalahan dan solusi produk.</p>
+        </section>
+        <section id="fitur" aria-labelledby="judul-fitur">
+          <h2 id="judul-fitur">Fitur Utama</h2>
+        </section>
+        <section id="kontak" aria-labelledby="judul-kontak">
+          <h2 id="judul-kontak">Hubungi Kami</h2>
+        </section>
+      </main>
+      <footer className="border-t">
+        <p>© 2026 Nama Produk</p>
+      </footer>
+    </>
   );
 }
